@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Flashcards for kids</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+    <string name="correct_toast">Awesome!! Your answer is correct :)</string>
+    <string name="incorrect_toast">Your answer is incorrect :(</string>
+    <string name="next_button">Next</string>
+
+    <string name="question1">1+1 = 2</string>
+    <string name="question2">2+2 = 3</string>
+    <string name="question3">3+3 = 6</string>
+    <string name="question4">4+4 = 1</string>
+
+    <string name="answer1">answer is 1+1 = 2</string>
+    <string name="answer2">answer is 2+2 = 4</string>
+    <string name="answer3">answer is 3+3 = 6</string>
+    <string name="answer4">answer is 4+4 = 8</string>
+
+    <string name="question5">Dogs have 4 legs</string>
+    <string name="question6">Cats say moo</string>
+    <string name="question7">Polar bears have white fur</string>
+    <string name="question8">Chickens can fly</string>
+
+    <string name="answer5">Dogs walk with their 4 legs</string>
+    <string name="answer6">Cats say meow</string>
+    <string name="answer7">Polar bears live in the north pole therefore their fur is white</string>
+    <string name="answer8">Chicken cannot fly but can glide for a period of time</string>
+
+</resources>
