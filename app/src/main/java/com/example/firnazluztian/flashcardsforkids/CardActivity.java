@@ -139,6 +139,14 @@ public class CardActivity extends AppCompatActivity {
                             nextQuestion();
                         }
                     });
+            alertDialogBuilder.setNegativeButton("exit",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            Intent intent = new Intent(CardActivity.this, MenuActivity.class);
+                            startActivity(intent);
+                        }
+                    });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
 
