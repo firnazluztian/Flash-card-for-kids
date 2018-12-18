@@ -20,9 +20,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".CardActivity" />
-        <activity android:name=".MenuActivity"
-            android:label="Main menu">
-        </activity>
+        <activity
+            android:name=".MenuActivity"
+            android:label="Main menu" />
+        <activity android:name=".ScoreActivity" />
+        <activity android:name=".ListDBActivity"></activity>
     </application>
 
 </manifest>

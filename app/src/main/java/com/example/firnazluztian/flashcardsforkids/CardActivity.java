@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class CardActivity extends AppCompatActivity {
     //create Buttons and TextView for UI communication
     private Button mTrueButton;
@@ -24,6 +28,8 @@ public class CardActivity extends AppCompatActivity {
     private TextView mAnswerTextView;
     private CardView mAnswerPic;
     private ProgressBar mProgressBar;
+
+    DatabaseHelper mDatabaseHelper;
 
     //create the question bank
     private CardActivity.QuestionsModel[] mQuestionBank = new CardActivity.QuestionsModel[]{
@@ -42,6 +48,7 @@ public class CardActivity extends AppCompatActivity {
         setTitle("Question " + count);
         setContentView(R.layout.activity_card);
 
+        mDatabaseHelper = new DatabaseHelper(this);
         mQuestionTextView = (TextView) findViewById(R.id.questions);
         mAnswerTextView = (TextView) findViewById(R.id.answer);
         mAnswerPic = (CardView) findViewById(R.id.answerImg);
@@ -73,7 +80,11 @@ public class CardActivity extends AppCompatActivity {
         final EasyFlipView easyFlipView = (EasyFlipView) findViewById(R.id.cardFlip);
         easyFlipView.setOnTouchListener(new onSwipeTouchListener(CardActivity.this) {
             public void onSwipeTop() {
+                Intent get = getIntent();
+                final String name = get.getExtras().getString("name");
+
                 Intent intent = new Intent(CardActivity.this, MenuActivity.class);
+                intent.putExtra("name",name);
                 startActivity(intent);
             }
             public void onSwipeRight() {
@@ -105,6 +116,9 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void checkAnswer(boolean userPress){
+        Intent intent = getIntent();
+        final String name = intent.getExtras().getString("name");
+
         boolean answerTrue = mQuestionBank[mCurrentIndex].isAnswer();
         int messageResId = 0;
         String button1;
@@ -123,11 +137,20 @@ public class CardActivity extends AppCompatActivity {
         if ((mCurrentIndex+1) == mQuestionBank.length) {
             String alert;
             if (score == mQuestionBank.length) {
-                alert = "Congratulations! You got " + score + " out of " + mQuestionBank.length + " questions correct";
+                alert = "Congratulations! " + name + ", you got " + score + " out of " + mQuestionBank.length + " questions correct";
             }
             else {
-                alert = "You got " + score + " out of " + mQuestionBank.length + " questions correct";
+                alert = name + ", you got " + score + " out of " + mQuestionBank.length + " questions correct";
             }
+
+            // STORING DATA TO DB
+
+            // get date
+            String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            String newEntry = "User: " + name + "\nScore: " + score + ", out of " + mQuestionBank.length + "\nDate: " + date;
+
+            AddData(newEntry);
+
             button1 = "try again?";
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CardActivity.this);
             alertDialogBuilder.setMessage(alert);
@@ -136,6 +159,7 @@ public class CardActivity extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
+                            score = 0;
                             nextQuestion();
                         }
                     });
@@ -144,6 +168,7 @@ public class CardActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
                             Intent intent = new Intent(CardActivity.this, MenuActivity.class);
+                            intent.putExtra("name",name);
                             startActivity(intent);
                         }
                     });
@@ -204,5 +229,18 @@ public class CardActivity extends AppCompatActivity {
         mProgressBar.setProgress(mCurrentIndex);
 
         updateQuestion();
+    }
+
+    public void AddData(String newEntry) {
+        boolean insertData = mDatabaseHelper.addData(newEntry);
+        if (insertData) {
+
+        } else {
+            ToastMessage("Something went wrong");
+        }
+    }
+
+    private void ToastMessage (String message) {
+        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
 }

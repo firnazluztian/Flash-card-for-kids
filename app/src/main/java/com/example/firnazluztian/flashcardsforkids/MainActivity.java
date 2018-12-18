@@ -14,17 +14,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private EditText mEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mEditText = (EditText)findViewById(R.id.inputName);
     }
 
     @Override
@@ -85,7 +89,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClickStart (View view) {
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
+
+        String name = mEditText.getText().toString();
+        if (name.isEmpty()) {
+            Toast.makeText(this, "please input your name", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(this, MenuActivity.class);
+            intent.putExtra("name",name);
+            startActivity(intent);
+        }
+
+
     }
 }
